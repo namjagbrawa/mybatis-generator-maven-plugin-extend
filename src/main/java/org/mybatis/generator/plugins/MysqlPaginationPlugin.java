@@ -37,21 +37,25 @@ public class MysqlPaginationPlugin extends PluginAdapter {
     private void addLimit(TopLevelClass topLevelClass,
                           IntrospectedTable introspectedTable, String name) {
         CommentGenerator commentGenerator = context.getCommentGenerator();
-        Field field = new Field(name, PrimitiveTypeWrapper.getIntegerInstance());
+        Field field = new Field();
         field.setVisibility(JavaVisibility.PROTECTED);
+        field.setType(PrimitiveTypeWrapper.getIntegerInstance());
+        field.setName(name);
         commentGenerator.addFieldComment(field, introspectedTable);
         topLevelClass.addField(field);
         char c = name.charAt(0);
         String camel = Character.toUpperCase(c) + name.substring(1);
-        Method method = new Method("set" + camel);
+        Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
+        method.setName("set" + camel);
         method.addParameter(new Parameter(PrimitiveTypeWrapper.getIntegerInstance(), name));
         method.addBodyLine("this." + name + "=" + name + ";");
         commentGenerator.addGeneralMethodComment(method, introspectedTable);
         topLevelClass.addMethod(method);
-        method = new Method("get" + camel);
+        method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(PrimitiveTypeWrapper.getIntegerInstance());
+        method.setName("get" + camel);
         method.addBodyLine("return " + name + ";");
         commentGenerator.addGeneralMethodComment(method, introspectedTable);
         topLevelClass.addMethod(method);

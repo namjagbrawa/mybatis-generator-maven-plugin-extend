@@ -94,10 +94,12 @@ public class SerializablePluginAddExample extends PluginAdapter {
             topLevelClass.addImportedType(serializable);
             topLevelClass.addSuperInterface(serializable);
 
-            Field field = new Field("serialVersionUID", new FullyQualifiedJavaType("long"));
+            Field field = new Field();
             field.setFinal(true);
             field.setInitializationString("1L"); //$NON-NLS-1$  
+            field.setName("serialVersionUID"); //$NON-NLS-1$
             field.setStatic(true);
+            field.setType(new FullyQualifiedJavaType("long")); //$NON-NLS-1$
             field.setVisibility(JavaVisibility.PRIVATE);
             context.getCommentGenerator().addFieldComment(field, introspectedTable);
 
